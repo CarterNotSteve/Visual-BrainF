@@ -30,6 +30,8 @@ com_num = 0
 ln_num = 0
 windowActive = False
 hasbeenon = True
+winwidth = 640
+winheight = 480
 
 elements = [pyglet.text]
 
