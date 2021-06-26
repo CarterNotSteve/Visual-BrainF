@@ -6,7 +6,7 @@ This project is currently a minimal, bare BrainF interpreter. Eventually, it wil
 
 The script requires one parameter:
 ```
-python Visual_brainf.py --output thing_idk.vbf
+python Visual_brainf.py --input thing_idk.vbf
 ```
 
 will execute the BrainF script contained in the `thing_idk.vbf` file.

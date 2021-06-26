@@ -1,4 +1,9 @@
 import sys, getopt
+import pyglet
+
+
+global winwidth
+global winheight
 
 global inputfile
 inputfile = ""
@@ -16,7 +21,6 @@ x = open(inputfile, "r")
 y = x.readlines()
 
 tape = [0]
-global tape_head
 tape_head = 0
 looping = False
 start_pos = []
@@ -24,6 +28,12 @@ end_pos = []
 instructions_pointer = 0
 com_num = 0
 ln_num = 0
+windowActive = False
+hasbeenon = True
+
+elements = [pyglet.text]
+
+window = pyglet.window.Window(width=winwidth, height=winheight)
 
 # remove newline characters from lists, so that they aren't parsed. ####################################################
 
@@ -95,11 +105,17 @@ def cmd_in():
 
 
 def cmd_print():
-    print(chr(tape[tape_head]), end="")
+    global windowActive
+    if tape[tape_head] < 128:
+        print(chr(tape[tape_head]), end="")
+
+    if tape[tape_head] == 129:
+        hasbeenon = False
 
 
 def cmd_print_val():
     print(str(tape[tape_head]), end="")
+
 
 
 funcs = {
@@ -121,6 +137,21 @@ while instructions_pointer < len(strins):
 
     if cmd in funcs.keys():
         funcs[cmd]()
+
+    if not hasbeenon:
+        pyglet.app.run()
+        hasbeenon = True
+
+
+def on_draw():
+    window.clear()
+    for k in elements:
+        k.draw()
+
+    if not windowActive:
+        window.close()
+
+
 
     # print(tape, tape_head, cmd)
     # print(start_pos)
