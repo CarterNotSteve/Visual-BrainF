@@ -1,7 +1,6 @@
 import sys, getopt
 import pyglet
 
-
 global winwidth
 global winheight
 
@@ -33,9 +32,9 @@ hasbeenon = True
 winwidth = 640
 winheight = 480
 
-elements = [pyglet.text]
+elements = [pyglet.text.Label("Hello World Test", "Arial", 16)]
 
-window = pyglet.window.Window(width=winwidth, height=winheight)
+
 
 # remove newline characters from lists, so that they aren't parsed. ####################################################
 
@@ -49,6 +48,8 @@ for i in y:
     com_num += 1
 
 strins = " ".join(y)
+
+
 # print(strins, instructions_pointer, "\n")
 
 
@@ -119,7 +120,6 @@ def cmd_print_val():
     print(str(tape[tape_head]), end="")
 
 
-
 funcs = {
     "+": cmd_add,
     "-": cmd_sub,
@@ -133,6 +133,10 @@ funcs = {
 }
 
 
+window = pyglet.window.Window(width=winwidth, height=winheight)
+window.set_visible(False)
+
+
 while instructions_pointer < len(strins):
     cmd = strins[instructions_pointer]
     # print("%s:%d" % (cmd, instructions_pointer))
@@ -140,20 +144,20 @@ while instructions_pointer < len(strins):
     if cmd in funcs.keys():
         funcs[cmd]()
 
+    window.set_visible(True)
+
     if not hasbeenon:
+
+
+
+        def on_draw():
+            window.clear()
+            for k in elements:
+                k.draw()
+
+
         pyglet.app.run()
         hasbeenon = True
-
-
-def on_draw():
-    window.clear()
-    for k in elements:
-        k.draw()
-
-    if not windowActive:
-        window.close()
-
-
 
     # print(tape, tape_head, cmd)
     # print(start_pos)
