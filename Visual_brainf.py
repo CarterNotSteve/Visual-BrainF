@@ -31,6 +31,8 @@ windowActive = False
 hasbeenon = True
 winwidth = 640
 winheight = 480
+global shouldshow
+shouldshow = False
 
 elements = [pyglet.text.Label("Hello World Test", "Arial", 16)]
 
@@ -114,6 +116,8 @@ def cmd_print():
 
     if tape[tape_head] == 129:
         hasbeenon = False
+        global shouldshow
+        shouldshow = not shouldshow
 
 
 def cmd_print_val():
@@ -134,7 +138,21 @@ funcs = {
 
 
 window = pyglet.window.Window(width=winwidth, height=winheight)
-window.set_visible(False)
+
+
+def on_draw():
+    global shouldshow
+    shouldshow = False
+    window.clear()
+    for k in elements:
+        k.draw()
+
+    if not shouldshow:
+        window.set_visible(False)
+
+pyglet.app.run()
+
+
 
 
 while instructions_pointer < len(strins):
@@ -144,20 +162,14 @@ while instructions_pointer < len(strins):
     if cmd in funcs.keys():
         funcs[cmd]()
 
-    window.set_visible(True)
-
     if not hasbeenon:
 
+        window.set_visible(True)
 
 
-        def on_draw():
-            window.clear()
-            for k in elements:
-                k.draw()
 
 
-        pyglet.app.run()
-        hasbeenon = True
+
 
     # print(tape, tape_head, cmd)
     # print(start_pos)
