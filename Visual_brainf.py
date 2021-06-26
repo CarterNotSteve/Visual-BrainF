@@ -75,9 +75,17 @@ def cmd_if_not_zero():
     global instructions_pointer
     if tape[tape_head] != 0:
         start_pos.append(instructions_pointer)
-
     else:
-        instructions_pointer = end_pos.pop()
+        brackets = 1
+        if len(end_pos) == 0: # Find matching "]"
+            while brackets > 0:
+                instructions_pointer += 1
+                if strins[instructions_pointer] == "[":
+                    brackets += 1
+                elif strins[instructions_pointer] == "]":
+                    brackets -= 1
+        else:
+            instructions_pointer = end_pos.pop()
 
 
 def cmd_end_loop():
@@ -95,6 +103,7 @@ def cmd_in():
 
 
 def cmd_print():
+    global instructions_pointer
     print(chr(tape[tape_head]), end="")
 
 
